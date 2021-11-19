@@ -10,7 +10,7 @@ fi
 DIR=$1
 SIZE=$2
 
-if [[ -d "$1" && $SIZE =~ ^[0-9]+$ ]]; then
+if [[ -d $DIR && $SIZE =~ ^[0-9]+$ ]]; then
     result=$(find $DIR -size +${SIZE} -type f -exec stat -f '%a:%N' "{}" \; | sort -nr | cut -d':' -f2 | head -1)
     ls -la $result
 else
