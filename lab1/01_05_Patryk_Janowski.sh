@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if (( $# == 0))
 then
@@ -6,5 +6,5 @@ then
     exit
 fi
 
-tab=( "$@" )
-echo "${tab[@]}" | rev
+arr=( "$@" )
+echo "${arr[@]}" | rev
