@@ -13,8 +13,8 @@ int main(int argc, char *argv[]){
    }
 
    struct rusage r_usage;
-   char SIZE = (int) ceil(cbrt(atoi(argv[1])));
-   char **arr[SIZE];
+   int SIZE = (int) ceil(cbrt(atoi(argv[1])) / (sizeof(double)));
+   double **arr[SIZE];
    int ret = getrusage(RUSAGE_SELF,&r_usage);
    long prev = r_usage.ru_maxrss;
    printf("SIZE %d\n", SIZE);
@@ -22,9 +22,12 @@ int main(int argc, char *argv[]){
    
    int i = 0;
    while (r_usage.ru_maxrss < atoi(argv[1]) + prev) {
-      arr[i++] = (char**) calloc(sizeof(char), SIZE*SIZE);
+      arr[i++] = (double**) calloc(sizeof(double), SIZE*SIZE);
       ret = getrusage(RUSAGE_SELF,&r_usage);
-      printf("memmory usage %ld\n", r_usage.ru_maxrss);
+      if(i % 10 == 0){
+         sleep(1);
+         printf("memmory usage %ld\n", r_usage.ru_maxrss);
+      }
    }
 
    printf("size of arr %d\n", i);
