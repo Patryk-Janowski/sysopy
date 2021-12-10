@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-int SIZE = 10^6;
+#include <math.h>
+int SIZE = 1000000;
 
 void f_static(){
     double s_arr[SIZE];
