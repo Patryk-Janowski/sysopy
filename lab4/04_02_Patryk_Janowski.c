@@ -21,16 +21,16 @@ int main(int argc, char *argv[]){
    printf("memmory usage %ld\n", r_usage.ru_maxrss);
    
    int i = 0;
-   while (r_usage.ru_maxrss < atoi(argv[1]) + prev) {
-      arr[i++] = (double**) calloc(sizeof(double), SIZE*SIZE);
+   void *p = 1;
+   while (r_usage.ru_maxrss < atoi(argv[1]) + prev && p) {
+      p = calloc(sizeof(double), SIZE*SIZE);
+      arr[i++] = (double**) p;
       ret = getrusage(RUSAGE_SELF,&r_usage);
-      if(i % 10 == 0){
-         sleep(1);
-         printf("memmory usage %ld\n", r_usage.ru_maxrss);
-      }
+      sleep(1);
+      printf("memmory usage %ld\n", r_usage.ru_maxrss);
    }
 
-   printf("size of arr %d\n", i);
+   printf("size of arr %d\n", pow(i, 3));
 
    while (i-- > 0) {
       free(arr[i]);
