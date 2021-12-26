@@ -6,11 +6,12 @@ then
     exit
 fi
 
-output=$(find $1 -type l ! -readable)
+find $1 -type l ! -readable > output.txt
 num=$(echo $output | wc -w)
 
 echo  "$num petli w katalogu $1"
 
 while read p; do 
     echo "$p ----> dlugosc petli $(ls -la $p | grep -c '\->')"
-done < output
+done < output.txt
+rm output.txt
