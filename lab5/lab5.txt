@@ -1,0 +1,45 @@
+$ sudo dd if=/dev/zero of=zero.dat bs=1M count=100 
+
+$ sudo dd if=/dev/urandom of=losowy.dat bs=1M count=100 
+
+
+1.1. Badanie stopnia upakowania (kompresji)
+-rw-r--r--  1 root      root      104857600 Dec 25 16:48 zero.dat
+-rw-r--r--  1 parallels parallels    101800 Dec 25 16:48 zero.dat.gz
+
+-rw-r--r--  1 root      root      104857600 Dec 25 16:49 losowy.dat
+-rw-r--r--  1 parallels parallels 104874289 Dec 25 16:49 losowy.dat.gz
+
+losowe dane pobrane z /dev/urandom nie pozwalaja na zlealezienie zadnego powtarzalnego wzorca umozliwiajacego kompersje np. poprzez kodowanie Huffmana
+natomias same zera sa powtazalne i pozwala to na bardzo efektywna kompresje
+
+
+1.2. Dowiązania
+$ ln -s losowy.dat losowy-soft.dat
+$ sudo ln losowy.dat losowy-hard.dat
+
+1.3. System plików
+
+$ sudo mkfs.ext4 zero.dat
+$ sudo mount ./zero.dat /media/zeros
+
+
+Bez uprawinei roota:
+dodajemy linjke do /etc/fstab
+
+/dev/loop0   /media/zeros    ext4    noauto,users      0   2
+
+$ sudo systemctl daemon-reload
+
+1.4
+$ cryptsetup -y -v luksFormat /dev/loop0 
+
+$ cryptsetup luksOpen /dev/loop0 backup
+File: /dev/mapper/backup -> ../dm-0
+
+$ mkfs.ext4 /dev/mapper/backup 
+
+$ mount /dev/mapper/backup /media/zeros 
+
+$ umount /backup
+$ cryptsetup luksClose backup
