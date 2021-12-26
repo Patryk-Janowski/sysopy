@@ -1,3 +1,5 @@
 .DS_Store
 *.pdf
 lab5/baeldung/*
+*.dat
+.vscode
