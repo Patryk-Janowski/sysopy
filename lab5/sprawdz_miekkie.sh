@@ -1,9 +1,11 @@
 #!/bin/bash
 
-if (( $# != 1))
-then
+if (( $# != 1)); then
     echo "Błędne parametry"
-    exit
+    exit 1
+elif [[ ! -d $1 ]]; then
+    echo "$1 nie jest katalogiem"
+    exit 1
 fi
 
 find $1 -type l ! -readable > output.txt
