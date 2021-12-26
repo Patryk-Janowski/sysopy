@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         puts("wrong num of args");
         exit(1);
     }
-    
+
     clock_t timing;
     int buffer_size = atoi(argv[1]);
     char *buffer = malloc(sizeof(char) * buffer_size);
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     size_t copied = copy(fp1, fp2, buffer, buffer_size);
     timing = clock() - timing;
 
-    printf("buffer size = %9d, time : %8ld (copied %zu bytes)\n",
+    printf("buffer size = %d, time : %ld (copied %zu bytes)\n",
             buffer_size, timing, copied);
 
     close(fp2);
